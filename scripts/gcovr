@@ -242,6 +242,7 @@ def process_gcov_data(file, covdata, options):
     uncovered = set()
     covered   = {}
     branches  = {}
+    functions = {}
     #first_record=True
     lineno = 0
     for line in INPUT:
@@ -273,7 +274,19 @@ def process_gcov_data(file, covdata, options):
         elif tmp.startswith('call'):
             pass
         elif tmp.startswith('function'):
-            pass
+            fields = line.split()
+            #print "HERE  fields",fields
+            try:
+                count = int(fields[3])
+                functionname = fields[1]
+                # ignore global functions 
+                # they are just compiler abstraction 
+                # and don't give actual coverage information
+                if not functionname.startswith('_GLOBAL__I_'):
+                    functions.setdefault(lineno, {})[functionname] = count
+            except:
+                # We ignore functions that were "never executed"
+                pass
         elif tmp[0] == 'f':
             pass
             #if first_record:
@@ -295,6 +308,8 @@ def process_gcov_data(file, covdata, options):
     #print "HERE",fname
     #print "HERE uncovered",uncovered
     #print "HERE   covered",covered
+    #print "HERE functions",functions
+    #print "HERE  branches",branches
     if not fname in covdata:
         covdata[fname] = CoverageData(fname,uncovered,covered,branches,noncode)
     else:
