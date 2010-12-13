@@ -319,7 +319,7 @@ def process_datafile(filename, covdata, options):
                "--preserve-paths"]
         if options.objdir:
             cmd.extend(["--object-directory", Template(options.objdir).substitute(filename=filename, head=dirname, tail=base, root=name, ext=ext)])
-        cmd.append(dirname)
+        cmd.append(filename)
 
         if options.verbose:
             print "Running gcov: '"+" ".join(cmd)+"' in '"+os.getcwd()+"'"
