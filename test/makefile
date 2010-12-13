@@ -4,4 +4,6 @@ helloWorldC: helloWorldC.c
 helloWorldCpp: helloWorldCpp.cpp
 	g++ -o helloWorldCpp -fprofile-arcs -ftest-coverage helloWorldCpp.cpp
 clean:
-	rm -f helloWorld helloWorld.gcda helloWorld.gcno
+	rm -f helloWorldC helloWorldC.gcda helloWorldC.gcno helloWorldC.c.gcov
+	rm -f helloWorldCpp helloWorldCpp.gcda helloWorldCpp.gcno helloWorldCpp.cpp.gcov
+	rm -f *.gcov
